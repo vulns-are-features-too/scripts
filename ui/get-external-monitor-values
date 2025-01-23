@@ -1,4 +1,11 @@
 #!/bin/bash
 
-ddcutil getvcp 10 --display 1
-ddcutil getvcp 12 --display 1
+if [ "$(cat /proc/$PPID/comm)" = "systemd" ]; then
+  # rofi -show run
+  brightness="$(ddcutil getvcp 10 --display 1 -t | cut -d' ' -f 4)"
+  contrast="$(ddcutil getvcp 12 --display 1 -t | cut -d' ' -f 4)"
+  notify-send "$(echo -e "brightness = $brightness\ncontrast   = $contrast")"
+else
+  ddcutil getvcp 10 --display 1
+  ddcutil getvcp 12 --display 1
+fi
