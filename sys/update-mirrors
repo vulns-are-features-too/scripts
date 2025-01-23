@@ -3,11 +3,29 @@
 set -e
 mirrors=20
 
-curl 'https://archlinux.org/mirrorlist/all/https/' | sed 's/#Server/Server/' > /tmp/mirrorlist.bak
+download() {
+  curl 'https://archlinux.org/mirrorlist/all/https/' | sed 's/#Server/Server/' > /tmp/mirrorlist.bak
+}
 
-echo "Ranking $mirrors mirrors"
-{ time rankmirrors -n $mirrors /tmp/mirrorlist.bak; } \
-  | grep https > /tmp/mirrorlist \
-  && notify-send "Finished ranking mirrors. Enter sudo password"
+rank() {
+  echo "Ranking $mirrors mirrors"
+  { time rankmirrors -n $mirrors /tmp/mirrorlist.bak; } \
+    | grep https > /tmp/mirrorlist \
+    && notify-send "Finished ranking mirrors. Enter sudo password"
+}
 
-sudo mv /tmp/mirrorlist /tmp/mirrorlist.bak /etc/pacman.d/
+install() {
+  sudo mv /tmp/mirrorlist /tmp/mirrorlist.bak /etc/pacman.d/
+}
+
+if [ $# -eq 0 ]; then
+  download
+  rank
+  install
+else
+  case $1 in
+    d | download) download;;
+    r | rank) rank;;
+    i | install | mv) install;;
+  esac
+fi
