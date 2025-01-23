@@ -10,7 +10,6 @@ if [ $# -eq 0 ]; then
   alacritty -e "$0" 1 &
 else
   bspc node focused -t \~floating # make window float
-  # TODO: "Wednesday" pushes last time off the terminal
-  date '+%D%n%A%n%T' | toilet -f mono12
+  date '+%T%n%D%n%A' | cut -c -8 | toilet -f mono12
   read -n 1 -s -r # press any key to close
 fi
