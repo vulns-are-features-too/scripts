@@ -9,7 +9,7 @@ ytdl_bin='yt-dlp'
 color_err="\x1b[31m"  # red
 color_info="\x1b[32m" # green
 color_reset="\x1b[0m"
-common_ytdl_flags=(--embed-chapters --extractor-args "youtube:player_client=default,-web_creator")
+common_ytdl_flags=(--embed-chapters)
 
 if ! [ -x "$(command -v pueue)" ]; then
   echo -e "${color_err}[!] Error: pueue is not installed.${color_reset}" >&2
