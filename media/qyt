@@ -40,7 +40,7 @@ get_type() {
 # enqueue a single video
 video() {
   url="${1%\&*}" # Everything after the 1st `&` is trimmed off
-  pueue add -g "$group" -w "$dest" -- "$ytdl_bin" --no-playlist "$url" && echo -e "${color_info}[+] Enqueued video:${color_reset} ${url}" >&2
+  pueue add -g "$group" -w "$dest" -- "$ytdl_bin" --extractor-args "youtube:player_client=default,-web_creator" --no-playlist "$url" && echo -e "${color_info}[+] Enqueued video:${color_reset} ${url}" >&2
 }
 
 # enqueue a playlist, optionally with indices
@@ -50,10 +50,10 @@ playlist() {
   format="%(playlist_title)s [%(playlist_id)s]/%(playlist_index)s. %(title)s [%(id)s].%(ext)s"
   if [ "$idx" = "" ]; then
     # no indices
-    pueue add -g "$group" -w "$dest" -e -- "$ytdl_bin" -o "$format" "$url" && echo -e "${color_info}[+] Enqueued whole playlist:${color_reset} ${url}" >&2
+    pueue add -g "$group" -w "$dest" -e -- "$ytdl_bin" --extractor-args "youtube:player_client=default,-web_creator" -o "$format" "$url" && echo -e "${color_info}[+] Enqueued whole playlist:${color_reset} ${url}" >&2
   else
     # with indices
-    pueue add -g "$group" -w "$dest" -e -- "$ytdl_bin" -o "$format" "$url" -I "$idx" && echo -e "${color_info}[+] Enqueued playlist${color_reset} ${url} @ indices ${idx}" >&2
+    pueue add -g "$group" -w "$dest" -e -- "$ytdl_bin" --extractor-args "youtube:player_client=default,-web_creator" -o "$format" "$url" -I "$idx" && echo -e "${color_info}[+] Enqueued playlist${color_reset} ${url} @ indices ${idx}" >&2
   fi
 }
 

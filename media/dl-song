@@ -45,7 +45,7 @@ if [ "$album_artist" = "" ] && [ "$album" != "" ] && [ "$artist" != "" ]; then
   album_artist="$artist"
 fi
 
-yt-dlp --no-playlist --extract-audio --audio-format mp3 "$url" -o "${filename}.mp3"
+yt-dlp --extractor-args "youtube:player_client=default,-web_creator" --no-playlist --extract-audio --audio-format mp3 "$url" -o "${filename}.mp3"
 
 # audacity rewrites comments and deletes URL frames, only --user-text-frame kinda stays though its description also gets changed to TXXX
 eyeD3 "${filename}.mp3" -t "$title" -a "$artist" -A "$album" -b "$album_artist" -n "$tracknum" --url-frame "WOAS:$url" --user-text-frame "URL:$url"
