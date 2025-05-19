@@ -3,6 +3,10 @@
 set -e
 mirrors=20
 
+print_help () {
+  echo "Usage: $(basename "$0") [d|r|i|h|download|rank|install]"
+}
+
 download() {
   curl 'https://archlinux.org/mirrorlist/all/https/' | sed 's/#Server/Server/' > /tmp/mirrorlist.bak
 }
@@ -27,5 +31,6 @@ else
     d | download) download;;
     r | rank) rank;;
     i | install | mv) install;;
+    h | help | -h ) print_help;;
   esac
 fi
