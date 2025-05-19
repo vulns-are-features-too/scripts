@@ -1,0 +1,17 @@
+#!/bin/bash
+
+failures=()
+
+for f in "$@"; do
+  d="${f%.*}" # strip extension
+  unzip -d "$d" "$f" || failures+=("$f")
+done
+
+if [ "${#failures}" -gt 0 ]; then
+  echo
+  echo "${#failures} failures:"
+    for f in "${failures[@]}"; do
+      echo "- $f"
+    done
+  echo
+fi
