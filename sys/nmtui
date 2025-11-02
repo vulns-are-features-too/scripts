@@ -1,0 +1,2 @@
+#!/bin/sh
+NEWT_COLORS='root=black,black' /usr/bin/nmtui
