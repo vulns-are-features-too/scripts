@@ -1,0 +1,6 @@
+#!/bin/sh
+
+dir='/etc/NetworkManager/system-connections/'
+wifis="$(sudo ls $dir)"
+wifi="$(echo "$wifis" | fzf)"
+sudo cat "$dir/$wifi" | grep -oP 'psk=(.*)' | cut -d '=' -f 2-
