@@ -1,0 +1,16 @@
+#!/bin/bash
+# Turn any text to a safe file name
+
+main() {
+  sed 's/\\./_/g' |       # replace backslash chars
+    tr -c "\x00-\x7F" _ | # replace non ascii chars
+    sed 's/_\+/_/g' |     # dedup replacement
+    sed 's/^_*//;s/_*$//' # trim
+}
+
+if [ $# -eq 0 ]; then
+  # from stdin
+  main
+else
+  echo -n "$*" | main
+fi
