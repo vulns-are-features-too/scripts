@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if ! [ $# -eq 1 ] && ! [ $# -eq 2 ]; then
+  echo "Usage: $(basename "$0") TEXT [FILENAME]" >&2
+  exit 1
+fi
+
+text="$1"
+
+if [ $# -eq 2 ]; then
+  filename="$2"
+else
+  filename="$(txt2filename "$text").jpg"
+fi
+
+magick -background black -fill white -font Atkinson-Hyperlegible-Regular -size 800x800 -gravity center label:"$text" "$filename"
